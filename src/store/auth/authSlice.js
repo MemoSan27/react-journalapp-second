@@ -6,7 +6,7 @@ export const authSlice = createSlice({
         status: 'checking', // 'checking', 'not-authenticated', 'authenticated'
         uid: null,
         email: null,
-        diplayName: null,
+        displayName: null,
         photoURL: null,
         errorMessage: null,
     },
@@ -15,7 +15,7 @@ export const authSlice = createSlice({
             currentValue.status = 'authenticated'; // 'checking', 'not-authenticated', 'authenticated'
             currentValue.uid = payload.uid;
             currentValue.email = payload.email;
-            currentValue.diplayName = payload.displayName;
+            currentValue.displayName = payload.displayName;
             currentValue.photoURL = payload.photoURL;
             currentValue.errorMessage = null;
         },
@@ -23,9 +23,9 @@ export const authSlice = createSlice({
             currentValue.status = 'not-authenticated'; // 'checking', 'not-authenticated', 'authenticated'
             currentValue.uid = null;
             currentValue.email = null;
-            currentValue.diplayName = null;
+            currentValue.displayName = null;
             currentValue.photoURL = null;
-            currentValue.errorMessage = payload.errorMessage;
+            currentValue.errorMessage = payload?.errorMessage;
         },
         checkingCredentials: (currentValue, action) => {
             currentValue.status = 'checking';
