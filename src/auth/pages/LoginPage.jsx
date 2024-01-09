@@ -6,25 +6,25 @@ import { Google } from "@mui/icons-material";
 import { Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
-import { checkingAuthentication, startGoogleSignIn } from '../../store';
+import { checkingAuthentication, startGoogleSignIn, startLoginWithEmailAndPassword } from '../../store';
+import { ErrorMessage } from '../../components/authPage/ErrorMessage';
 
 export const LoginPage = () => {
 
-  const { status } = useSelector( store => store.auth );
-
   const dispatch = useDispatch();
 
-  const { email, password, onInputChange } = useForm({
+  const { email, password, onInputChange, formState } = useForm({
     email: 'memo2705@gmail.com',
     password: '123456',
   });
 
+  const { status, errorMessage } = useSelector( store => store.auth );
   const isAuthenticating = useMemo( () => status === 'checking', [status]);
 
   const onSubmit = (e) => {
     e.preventDefault();
     
-    dispatch(checkingAuthentication());
+    dispatch(startLoginWithEmailAndPassword(formState))
   }
 
   const onGoogleSingIn = () => {
@@ -60,6 +60,8 @@ export const LoginPage = () => {
                 onChange={onInputChange}
               />
             </Grid>
+
+            <ErrorMessage errorMessage={errorMessage} />
 
             <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
               <Grid item xs={12} sm={6}>
