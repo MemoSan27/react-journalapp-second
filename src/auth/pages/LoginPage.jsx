@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -9,23 +9,26 @@ import { useForm } from '../../hooks';
 import { checkingAuthentication, startGoogleSignIn, startLoginWithEmailAndPassword } from '../../store';
 import { ErrorMessage } from '../../components/authPage/ErrorMessage';
 
+const formData = {
+  email: '',
+  password: '',
+};
+
 export const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const { email, password, onInputChange, formState } = useForm({
-    email: '',
-    password: '',
-  });
+  const { email, password, onInputChange, formState } = useForm(formData);
 
   const { status, errorMessage } = useSelector( store => store.auth );
   const isAuthenticating = useMemo( () => status === 'checking', [status]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    
     dispatch(startLoginWithEmailAndPassword(formState))
   }
+
+ 
 
   const onGoogleSingIn = () => {
     console.log('onGoogleSingIn');
